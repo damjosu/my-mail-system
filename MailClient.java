@@ -15,5 +15,13 @@ public class MailClient
     {
         server = newServer;
         user = newUser;
-    }    
+    }  
+    
+    /**
+     * Returns the last mail in the inbox (if it isn't empty).
+     */
+    public MailItem getNextMailItem()
+    {
+        return server.getNextMailItem(user);
+    }
 }
