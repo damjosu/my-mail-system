@@ -24,4 +24,18 @@ public class MailClient
     {
         return server.getNextMailItem(user);
     }
+    
+    /**
+     * Prints the last mail in the inbox. If empty a message will show.
+     */
+    public void printNextMailItem()
+    {
+        MailItem inbox = server.getNextMailItem(user);
+        if(inbox != null) {
+            inbox.show();
+        }
+        else {
+            System.out.println("The inbox is empty");
+        }
+    }
 }
