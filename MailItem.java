@@ -19,4 +19,28 @@ public class MailItem
         to = newTo;
         message = newMessage;
     }
+    
+    /**
+     * Returns the mail's sender.
+     */
+    public String getFrom()
+    {
+        return from;
+    }
+    
+    /**
+     * Returns the mail's recipient.
+     */
+    public String getTo()
+    {
+        return to;
+    }
+
+    /**
+     * Returns the mail's message.
+     */
+    public String getMessage()
+    {
+        return message;
+    }
 }
