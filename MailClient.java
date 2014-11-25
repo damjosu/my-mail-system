@@ -38,4 +38,13 @@ public class MailClient
             System.out.println("The inbox is empty");
         }
     }
+    
+    /**
+     * Sends the given message to the given recipient from the given sender.
+     */
+    public void sendMailItem(String to, String message)
+    {
+       MailItem mail = new MailItem(user, to, message);
+       server.post(mail);
+    }
 }
