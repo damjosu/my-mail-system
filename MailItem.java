@@ -43,4 +43,14 @@ public class MailItem
     {
         return message;
     }
+    
+    /**
+     * Prints mail's info: sender, recipient and message.
+     */
+    public void show()
+    {
+        System.out.println("From: " + from);
+        System.out.println("To: " + to);
+        System.out.println("Message: " + message);
+    }
 }
