@@ -9,14 +9,17 @@ public class MailItem
     private String to;
     // The message.
     private String message;
+    // The subject of the message.
+    private String subject;
 
     /**
      * Creates a mail from the given sender, to the given recipient with the given message.
      */  
-    public MailItem(String from, String to, String message)
+    public MailItem(String from, String to, String subject, String message)
     {
         this.from = from;
         this.to = to;
+        this.subject = subject;
         this.message = message;
     }
     
@@ -51,6 +54,7 @@ public class MailItem
     {
         System.out.println("From: " + from);
         System.out.println("To: " + to);
+        System.out.println("Subject: " + subject);
         System.out.println("Message: " + message);
     }
 }

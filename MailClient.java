@@ -42,9 +42,9 @@ public class MailClient
     /**
      * Sends the given message to the given recipient from the given sender.
      */
-    public void sendMailItem(String to, String message)
+    public void sendMailItem(String to, String subject, String message)
     {
-       MailItem mail = new MailItem(user, to, message);
+       MailItem mail = new MailItem(user, to, subject, message);
        server.post(mail);
     }
 }
