@@ -11,10 +11,10 @@ public class MailClient
     /**
      * Creates a mail client of an specific mail server runned by the given user.
      */
-    public MailClient(MailServer newServer, String newUser)
+    public MailClient(MailServer server, String user)
     {
-        server = newServer;
-        user = newUser;
+        this.server = server;
+        this.user = user;
     }  
     
     /**
