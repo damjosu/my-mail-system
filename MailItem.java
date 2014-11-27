@@ -47,6 +47,14 @@ public class MailItem
         return message;
     }
     
+     /**
+     * Returns the mail's subject.
+     */
+    public String getSubject()
+    {
+        return subject;
+    }
+    
     /**
      * Prints mail's info: sender, recipient and message.
      */

@@ -16,13 +16,26 @@ public class MailClient
         this.server = server;
         this.user = user;
     }  
-    
+
     /**
      * Returns the last mail in the inbox (if it isn't empty).
      */
     public MailItem getNextMailItem()
     {
         return server.getNextMailItem(user);
+    }
+
+    /**
+     * Gets the last email and sends an automatic reply to the user who send it to you.
+     */
+    public void getNextMailItemAndAutorespond()
+    {
+        MailItem last = server.getNextMailItem(user);
+        String from = last.getFrom();
+        String subject = "RE: " + last.getSubject();
+        String message = "Estoy de vacaciones" + System.lineSeparator() + last.getMessage();
+        MailItem automaticReply = new MailItem(user, from, subject, message);
+        server.post(automaticReply);        
     }
     
     /**
@@ -38,7 +51,7 @@ public class MailClient
             System.out.println("The inbox is empty");
         }
     }
-    
+
     /**
      * Prints how many emails left you have.
      */
@@ -46,13 +59,13 @@ public class MailClient
     {
         System.out.println("You have " + server.howManyMailItems(user) + " new messages");
     }
-    
+
     /**
      * Sends the given message to the given recipient from the given sender.
      */
     public void sendMailItem(String to, String subject, String message)
     {
-       MailItem mail = new MailItem(user, to, subject, message);
-       server.post(mail);
+        MailItem mail = new MailItem(user, to, subject, message);
+        server.post(mail);
     }
 }
