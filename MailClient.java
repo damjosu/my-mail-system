@@ -40,6 +40,14 @@ public class MailClient
     }
     
     /**
+     * Prints how many emails left you have.
+     */
+    public void printHowManyEmails()
+    {
+        System.out.println("You have " + server.howManyMailItems(user) + " new messages");
+    }
+    
+    /**
      * Sends the given message to the given recipient from the given sender.
      */
     public void sendMailItem(String to, String subject, String message)
