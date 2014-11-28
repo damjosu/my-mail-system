@@ -62,13 +62,17 @@ public class MailClient
     public void printNextMailItem()
     {
         lastMail = server.getNextMailItem(user);
-        if(lastMail != null) {
-            lastMail.show();
-        }
-        else {
-            System.out.println("The inbox is empty");
+        String spam = lastMail.getMessage();
+        if(lastMail != null)  {
+            if (!(lastMail.contains("proyecto")) && (((spam.contains("viagra"))) || ((spam.contains("oferta"))))) {
+                System.out.println("Spam");
+            }    
+            else {
+                lastMail.show();
+            }    
         }
     }
+    
 
     /**
      * Prints how many emails left you have.
