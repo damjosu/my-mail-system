@@ -31,11 +31,13 @@ public class MailClient
     public void getNextMailItemAndAutorespond()
     {
         MailItem last = server.getNextMailItem(user);
-        String from = last.getFrom();
-        String subject = "RE: " + last.getSubject();
-        String message = "Estoy de vacaciones" + System.lineSeparator() + last.getMessage();
-        MailItem automaticReply = new MailItem(user, from, subject, message);
-        server.post(automaticReply);        
+        if (last != null) {            
+            String from = last.getFrom();
+            String subject = "RE: " + last.getSubject();
+            String message = "Estoy de vacaciones" + "\n" + last.getMessage();
+            MailItem automaticReply = new MailItem(user, from, subject, message);
+            server.post(automaticReply);        
+        }
     }
     
     /**
