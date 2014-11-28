@@ -7,6 +7,8 @@ public class MailClient
     private MailServer server;
     // The user who runs the client.
     private String user;
+    // The last mail in the inbox.
+    private MailItem lastMail;
 
     /**
      * Creates a mail client of an specific mail server runned by the given user.
@@ -22,7 +24,8 @@ public class MailClient
      */
     public MailItem getNextMailItem()
     {
-        return server.getNextMailItem(user);
+        lastMail = server.getNextMailItem(user);
+        return lastMail;        
     }
 
     /**
@@ -36,7 +39,20 @@ public class MailClient
             String subject = "RE: " + last.getSubject();
             String message = "Estoy de vacaciones" + "\n" + last.getMessage();
             MailItem automaticReply = new MailItem(user, from, subject, message);
-            server.post(automaticReply);        
+            server.post(automaticReply);           
+        }
+    }
+    
+    /**
+     * Prints the last mail received
+     */
+    public void printLastMailItem()
+    {
+        if (lastMail != null) {
+            lastMail.show();
+        }
+        else {
+            System.out.println("There aren't new messages");
         }
     }
     
@@ -45,9 +61,9 @@ public class MailClient
      */
     public void printNextMailItem()
     {
-        MailItem inbox = server.getNextMailItem(user);
-        if(inbox != null) {
-            inbox.show();
+        lastMail = server.getNextMailItem(user);
+        if(lastMail != null) {
+            lastMail.show();
         }
         else {
             System.out.println("The inbox is empty");
