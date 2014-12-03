@@ -1,93 +1,150 @@
+ 
 /**
- * Emulates a client program to send and receive emails.
+ * Representa un cliente de correo electrónico
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
  */
 public class MailClient
 {
-    // The server used.
+    //Hace referencia al servidor asociado al cliente
     private MailServer server;
-    // The user who runs the client.
+    //Almacena la direccion de correo del usuario que usa el cliente
     private String user;
-    // The last mail in the inbox.
+    //Almacena el ultimo email recibido
     private MailItem lastMail;
-
+    
     /**
-     * Creates a mail client of an specific mail server runned by the given user.
+     * Constructor de la clase MailClient
      */
-    public MailClient(MailServer server, String user)
+    public MailClient(MailServer newServer, String myUser)
     {
-        this.server = server;
-        this.user = user;
-    }  
-
+        server = newServer;
+        user = myUser;
+        lastMail = null;
+    }
+    
     /**
-     * Returns the last mail in the inbox (if it isn't empty).
+     * Obtiene del servidor el siguiente correo del usuario
+     * y lo devuelve. En caso de no haber correo devuelve null.
      */
     public MailItem getNextMailItem()
-    {
-        lastMail = server.getNextMailItem(user);
-        return lastMail;        
-    }
-
-    /**
-     * Gets the last email and sends an automatic reply to the user who send it to you.
-     */
-    public void getNextMailItemAndAutorespond()
-    {
-        MailItem last = server.getNextMailItem(user);
-        if (last != null) {            
-            String from = last.getFrom();
-            String subject = "RE: " + last.getSubject();
-            String message = "Estoy de vacaciones" + "\n" + last.getMessage();
-            MailItem automaticReply = new MailItem(user, from, subject, message);
-            server.post(automaticReply);           
+    {        
+        MailItem email = server.getNextMailItem(user);
+        if (email != null)
+        {
+            boolean isSpam = false;
+            String message = email.getMessage();
+            if ((message.contains("oferta") || message.contains("viagra")) && !message.contains("proyecto"))
+            {
+                isSpam = true;
+            }
+             
+            if (isSpam)
+            {
+                // Cosas que hacer si es spam
+                email = null;
+            }
+            else
+            {
+                // Cosas que hacer si no es spam
+                lastMail = email;              
+            }
+          
         }
-    }
-    
-    /**
-     * Prints the last mail received
-     */
-    public void printLastMailItem()
-    {
-        if (lastMail != null) {
-            lastMail.show();
-        }
-        else {
-            System.out.println("There aren't new messages");
-        }
+        
+        return email;
     }
     
+    
     /**
-     * Prints the last mail in the inbox. If empty a message will show.
+     * Obtiene del servidor el siguiente correo del usuario
+     * y lo imprime por pantalla. Si no había correos en el
+     * servidor informa por pantalla de ello.
      */
     public void printNextMailItem()
     {
-        lastMail = server.getNextMailItem(user);
-        String spam = lastMail.getMessage();
-        if(lastMail != null)  {
-            if (!(lastMail.contains("proyecto")) && (((spam.contains("viagra"))) || ((spam.contains("oferta"))))) {
-                System.out.println("Spam");
-            }    
-            else {
-                lastMail.show();
-            }    
+        MailItem email = server.getNextMailItem(user);
+        if (email == null) 
+        {
+            System.out.println("No había mensajes en el servidor");
+        }
+        else 
+        {
+            //Aqui van las comprobaciones de si un email es spam
+            boolean isSpam = false;
+            String message = email.getMessage();
+            if ((message.contains("oferta") || message.contains("viagra")) && !message.contains("proyecto"))
+            {
+                isSpam = true;
+            }
+             
+            if (isSpam)
+            {
+                // Cosas que hacer si es spam
+                System.out.println("Se ha recibido un email de spam");
+            }
+            else
+            {
+                // Cosas que hacer si no es spam
+                email.print();
+                lastMail = email;                
+            }
+            
+ 
+        }
+        
+    }
+    
+    /**
+     * Envia un correo a la direccion indicada con el contenido
+     * pasado por parametro
+     */
+    public void sendMailItem(String address, String message)
+    {
+        MailItem emailToSend = new MailItem(user, address, message);
+        server.post(emailToSend);
+    }
+    
+    /**
+     * Metodo que imprime por pantalla los mensajes que tiene
+     * el usuario que esta utilizando el cliente
+     */
+    public void sloopMail()
+    {
+        System.out.println("Numero de emails en el servidor: " + 
+                           server.howManyMailItems(user));
+    }
+    
+    /**
+     * Metodo que descarga un email y lo responde automaticamente
+     * con un mensaje predefinido
+     */
+    public void getNextMailWithAutorespond()
+    {
+        MailItem email = server.getNextMailItem(user);
+        if (email != null)
+        {
+            String newTo = email.getFrom();
+            String newMessage = "Estoy de vacaciones.\n" + email.getMessage();
+            MailItem autorespond = new MailItem(user, newTo, newMessage);
+            server.post(autorespond);            
         }
     }
     
-
     /**
-     * Prints how many emails left you have.
+     * Imprime por pantalla el último mensaje recibido
      */
-    public void printHowManyEmails()
+    public void printLastMail()
     {
-        System.out.println("You have " + server.howManyMailItems(user) + " new messages");
+        if (lastMail != null)
+        {
+            lastMail.print();
+        }
+        else
+        {
+            System.out.println("No se ha recibo aun ningún mensaje");
+        }
     }
-
-    /**
-     * Sends the given message to the given recipient from the given sender.
-     */
-    public void sendMailItem(String to, String subject, String message)
-    {
-        MailItem mail = new MailItem(user, to, subject, message);
-        server.post(mail);
-    }
+    
 }

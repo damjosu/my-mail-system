@@ -1,68 +1,62 @@
+ 
 /**
- * Emulates an email display with sender, recipient and message.
+ * Esta clase representa un mensaje de email
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
  */
 public class MailItem
 {
-    // The sender.
+    //Almacena que direccion envia el mensaje
     private String from;
-    // The recipient.
+    //Almacena para que direccion es el mensaje
     private String to;
-    // The message.
+    //Almacena el contenido del mensaje del email
     private String message;
-    // The subject of the message.
-    private String subject;
-
+    
     /**
-     * Creates a mail from the given sender, to the given recipient with the given message.
-     */  
-    public MailItem(String from, String to, String subject, String message)
+     * Constructor de la clase MailItem
+     */
+    public MailItem(String newFrom, String newTo, String newMessage)
     {
-        this.from = from;
-        this.to = to;
-        this.subject = subject;
-        this.message = message;
+        from = newFrom;
+        to = newTo;
+        message = newMessage;
     }
     
     /**
-     * Returns the mail's sender.
+     * Devuelve la dirección de origen del mensaje
      */
     public String getFrom()
     {
         return from;
     }
     
-    /**
-     * Returns the mail's recipient.
+    /** 
+     * Devuelve la direccion de destino del mensaje
      */
     public String getTo()
     {
         return to;
     }
-
+    
     /**
-     * Returns the mail's message.
+     * Devuelve el contenido del mensaje
      */
     public String getMessage()
     {
         return message;
     }
     
-     /**
-     * Returns the mail's subject.
-     */
-    public String getSubject()
-    {
-        return subject;
-    }
-    
     /**
-     * Prints mail's info: sender, recipient and message.
+     * Imprime por pantalla los datos del email:
+     * direccion de origen y destino y contenido
      */
-    public void show()
+    public void print()
     {
-        System.out.println("From: " + from);
-        System.out.println("To: " + to);
-        System.out.println("Subject: " + subject);
-        System.out.println("Message: " + message);
+        System.out.println("Origen: " + from);
+        System.out.println("Destino: " + to);
+        System.out.println("Contenido del email: " + message);
     }
+ 
 }
